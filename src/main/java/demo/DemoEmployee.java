@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
  *
  * @author ctsuser1
  */
- @Path("employee")  // make this class process this url. empno is a variable that represents employee number.
+ @Path("edata")  // make this class process this url. empno is a variable that represents employee number.
 public class DemoEmployee {
 
     @Context
