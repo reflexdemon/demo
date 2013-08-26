@@ -29,9 +29,9 @@ public class DemoEmployee {
     }
 
     @GET
-    @Path("/employee/{empno}") 
-    @Produces("application/json") 
-    public String getJson( @PathParam("empno") int empno) {  // empno represents the empno sent from client   
+    @Path("/data/{empno}")
+    @Produces("application/json")
+    public String getJson( @PathParam("empno") int empno) {  // empno represents the empno sent from client
       switch(empno) {
           case 1 :
               return "{'name':'George Koch', 'age':58}";
@@ -40,5 +40,5 @@ public class DemoEmployee {
           default:
               return "{'name':'unknown', 'age':-1}";
       } // end of switch
-   } // end of 
+   } // end of
 }
