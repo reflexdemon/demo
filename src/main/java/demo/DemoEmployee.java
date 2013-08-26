@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
  *
  * @author ctsuser1
  */
- @Path("edata")  // make this class process this url. empno is a variable that represents employee number.
+ @Path("employee")  // make this class process this url. empno is a variable that represents employee number.
 public class DemoEmployee {
 
     @Context
@@ -34,9 +34,11 @@ public class DemoEmployee {
     public String getJson( @PathParam("empno") int empno) {  // empno represents the empno sent from client
       switch(empno) {
           case 1 :
-              return "{'name':'George Koch', 'age':58}";
+              return "{'name':'Harini', 'age':28}";
           case 2:
-              return "{'name':'Peter Norton', 'age':50}";
+              return "{'name':'Venkat', 'age':30}";
+          case 3:
+              return "{'name':'Navya', 'age':2}";
           default:
               return "{'name':'unknown', 'age':-1}";
       } // end of switch
