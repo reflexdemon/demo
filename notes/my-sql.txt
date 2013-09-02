@@ -1,0 +1,15 @@
+mysql-5.1 (MySQL Database 5.1)
+------------------------------
+  Gears:          Located with jbossews-2.0
+  Connection URL: mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/
+  Database Name:  demo
+  Password:       VLhaLhH_vBXK
+  Username:       adminMNUa44i
+
+MySQL 5.1 database added.  Please make note of these credentials:
+       Root User: adminMNUa44i
+   Root Password: VLhaLhH_vBXK
+   Database Name: demo
+Connection URL: mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/
+You can manage your new MySQL database by also embedding phpmyadmin-3.
+The phpmyadmin username and password will be the same as the MySQL credentials above.
