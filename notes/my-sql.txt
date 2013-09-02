@@ -13,3 +13,15 @@ MySQL 5.1 database added.  Please make note of these credentials:
 Connection URL: mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/
 You can manage your new MySQL database by also embedding phpmyadmin-3.
 The phpmyadmin username and password will be the same as the MySQL credentials above.
+
+
+To start my sql>gear start --cart mysql-5.1
+
+
+OPENSHIFT_MYSQL_DB_HOST="127.5.109.2"
+OPENSHIFT_MYSQL_DB_LOG_DIR="/var/lib/openshift/521ac5c25973ca1cd000019a/mysql//log/"
+OPENSHIFT_MYSQL_DB_PASSWORD="VLhaLhH_vBXK"
+OPENSHIFT_MYSQL_DB_PORT="3306"
+OPENSHIFT_MYSQL_DB_SOCKET="/var/lib/openshift/521ac5c25973ca1cd000019a/mysql//socket/mysql.sock"
+OPENSHIFT_MYSQL_DB_URL="mysql://adminMNUa44i:VLhaLhH_vBXK@127.5.109.2:3306/"
+OPENSHIFT_MYSQL_DB_USERNAME="adminMNUa44i"
