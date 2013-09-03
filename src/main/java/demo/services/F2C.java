@@ -7,6 +7,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.jettison.json.JSONException;
 
 import demo.domain.DemoVO;
@@ -14,6 +16,9 @@ import demo.domain.DemoVO;
 @Path("f2c")
 public class F2C {
 
+    /** The log. */
+    private static Log LOG = LogFactory.getLog(F2C.class.getName());
+    
     @GET
     @Produces("application/json")
     @HeaderParam("Access-Control-Allow-Origin: *")
@@ -26,7 +31,7 @@ public class F2C {
 	celsius = (fahrenheit - 32.0f) * 5.0f / 9.0f;
 	jsonObject[0].setFahrenheit(fahrenheit);
 	jsonObject[0].setCelsius(celsius);
-
+	LOG.debug(fahrenheit + "F --> " + celsius + "C");
 
 	return Response.status(200).entity(jsonObject).build();
     }
@@ -39,7 +44,7 @@ public class F2C {
 	    throws JSONException {
 
 	
-	System.out.println("convertFtoCfromInput(" + f + ")");
+	//System.out.println("convertFtoCfromInput(" + f + ")");
 	DemoVO jsonObject[] = new DemoVO[1];
         jsonObject[0] = new DemoVO();
 	float celsius;
@@ -47,7 +52,7 @@ public class F2C {
 	celsius = (fahrenheit - 32.0f) * 5.0f / 9.0f;
 	jsonObject[0].setFahrenheit(fahrenheit);
 	jsonObject[0].setCelsius(celsius);
-
+	LOG.debug(fahrenheit + "F --> " + celsius + "C");
 	return Response.status(200).entity(jsonObject).build();
     }
 }

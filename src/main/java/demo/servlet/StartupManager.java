@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 public class StartupManager extends HttpServlet {
     
     /** The log. */
-    private static Logger LOG = LogManager.getLogger(StartupManager.class.getName());
+    private static Log LOG = LogFactory.getLog(StartupManager.class.getName());
 
     /**
      * Load on startup.

@@ -7,11 +7,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 @Path("c2f")
 public class C2F {
+    
+    /** The log. */
+    private static Log LOG = LogFactory.getLog(C2F.class.getName());
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response convertFtoC() throws JSONException {
@@ -25,6 +31,8 @@ public class C2F {
       jsonObject.put("celsius", celsius);
       jsonObject.put("fahrenheit", fahrenheit);
 
+      LOG.debug(celsius + "C --> " + fahrenheit + "F");
+      
       return Response.status(200).entity("" + jsonObject).build();
     }
 
@@ -41,7 +49,7 @@ public class C2F {
        
       jsonObject.put("celsius", celsius);
       jsonObject.put("fahrenheit", fahrenheit);
-
+      LOG.debug(celsius + "C --> " + fahrenheit + "F");
       return Response.status(200).entity("" + jsonObject).build();
     }
 }

@@ -11,8 +11,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import demo.servlet.StartupManager;
 
@@ -24,7 +24,7 @@ import demo.servlet.StartupManager;
  @Path("employee")  // make this class process this url. empno is a variable that represents employee number.
 public class DemoEmployee {
      /** The log. */
-    private static Logger LOG = LogManager.getLogger(StartupManager.class.getName());
+     private static Log LOG = LogFactory.getLog(StartupManager.class.getName());
     @Context
     private UriInfo context;
 
@@ -38,6 +38,7 @@ public class DemoEmployee {
     @Path("/data/{empno}")
     @Produces("application/json")
     public String getJson( @PathParam("empno") int empno) {  // empno represents the empno sent from client
+	LOG.debug("empno:" + empno);
       switch(empno) {
           case 1 :
               return "{'name':'Harini', 'age':28}";
