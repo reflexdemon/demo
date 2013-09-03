@@ -6,6 +6,13 @@ mysql-5.1 (MySQL Database 5.1)
   Password:       VLhaLhH_vBXK
   Username:       adminMNUa44i
 
+
+For local DB Connection use port forwarding.
+
+>rhc port-forward -a demo
+
+mysql://localhost:3306/demo
+
 MySQL 5.1 database added.  Please make note of these credentials:
        Root User: adminMNUa44i
    Root Password: VLhaLhH_vBXK
