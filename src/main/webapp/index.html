@@ -23,7 +23,7 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
         <script>
             $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-                options.url = 'http://localhost:9090/demo' + options.url;
+                options.url = 'http://demo-venkatvp.rhcloud.com' + options.url;
             });
             
             var Temps = Backbone.Collection.extend({
