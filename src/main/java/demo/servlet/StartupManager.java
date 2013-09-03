@@ -6,10 +6,14 @@ package demo.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -17,12 +21,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class StartupManager extends HttpServlet {
     
+    /** The log. */
+    private static Logger LOG = LogManager.getLogger(StartupManager.class.getName());
+
     /**
      * Load on startup.
      */
     @Override
     public void init() {
-        
+        LOG.trace("init() called.");
     }
 
     /**

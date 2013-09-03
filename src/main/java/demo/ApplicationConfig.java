@@ -5,6 +5,7 @@
 package demo;
 
 import java.util.Set;
+
 import javax.ws.rs.core.Application;
 
 /**
@@ -27,9 +28,9 @@ public class ApplicationConfig extends Application {
      * given list with all resources defined in the project.
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(demo.C2F.class);
-        resources.add(demo.DemoEmployee.class);
-        resources.add(demo.F2C.class);
+        resources.add(demo.services.C2F.class);
+        resources.add(demo.services.DemoEmployee.class);
+        resources.add(demo.services.F2C.class);
     }
     
 }

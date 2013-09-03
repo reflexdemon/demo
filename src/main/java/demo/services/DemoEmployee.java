@@ -2,14 +2,19 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package demo;
+package demo.services;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import demo.servlet.StartupManager;
 
 /**
  * REST Web Service
@@ -18,7 +23,8 @@ import javax.ws.rs.Produces;
  */
  @Path("employee")  // make this class process this url. empno is a variable that represents employee number.
 public class DemoEmployee {
-
+     /** The log. */
+    private static Logger LOG = LogManager.getLogger(StartupManager.class.getName());
     @Context
     private UriInfo context;
 
