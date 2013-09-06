@@ -1,62 +1,113 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html class="ui-mobile-rendering">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
+        <title>Temprature Convertion</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
 
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <style>
-            body {
-                padding-top: 50px;
-                padding-bottom: 20px;
-            }
-        </style>
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="css/main.css">
+        <!-- The Templates -->
+        <script type="text/template" id="home">
 
-        <!--[if lt IE 9]>
-            <script src="js/vendor/html5-3.6-respond-1.1.0.min.js"></script>
-        <![endif]-->
+            <div data-role="header">
+            <h1>Temprature Convertion Utility</h1>
+            </div>
+
+            <div data-role="content">
+            <h3>Here is something you can use to convert temprature</h3>
+            <p>This is a temprature convertion utility created for learning HTML5</p>
+            <p>Navigate to:</p>
+            <ul data-role="listview"  data-inset="true">
+            <li><a href="#page1">Fahrenheit to Celsius</a></li>
+            <li><a href="#page2">Celsius to Fahrenheit</a></li>
+            </ul>
+            </div>
+
+        </script>
+
+        <script type="text/template" id="page1">
+
+            <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Fahrenheit to Celsius</h1>
+            </div>
+
+            <div data-role="content">
+            <p>
+            <input type="text" class="input-block-level" placeholder="Fahrenheit value" id="fahrenheitTxt">
+            </p>
+            <p>Navigate to:</p>
+            <ul data-role="listview" data-inset="true">
+            <li><a href="#result1">Convert</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#page2">Celsius to Fahrenheit</a></li>
+            </ul>
+            </div>
+
+        </script>
+
+        <script type="text/template" id="page2">
+
+            <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Celsius to Fahrenheit</h1>
+            </div>
+
+            <div data-role="content">
+            <p>
+            <input type="text" class="input-block-level" placeholder="Celsius value" id="celsiusTxt">
+            </p>
+            <p>Navigate to:</p>
+            <ul data-role="listview" data-inset="true">
+            <li><a href="#result2">Convert</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#page1">Fahrenheit to Celsius</a></li>
+            </ul>
+            </div>
+
+        </script>
+        <script type="text/template" id="result1">
+            <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Fahrenheit to Celsius result</h1>
+            </div>
+
+            <div data-role="content">
+            <p>
+            <span class="label" id="output1" data-role="content">0.0</span> 
+            </p>
+            <p>Navigate to:</p>
+            <ul data-role="listview" data-inset="true">
+            <li><a href="#">Home</a></li>
+            </ul>
+            </div>
+        </script>
+        <script type="text/template" id="result2">
+            <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Celsius to Fahrenheit result</h1>
+            </div>
+
+            <div data-role="content">
+            <p>
+            <span class="label" id="output2" data-role="content">0.0</span> 
+            </p>
+            <p>Navigate to:</p>
+            <ul data-role="listview" data-inset="true">
+            <li><a href="#">Home</a></li>
+            </ul>
+            </div>
+        </script>
+
+
+        <!-- The Scripts -->
+        <script src="lib/jquery-1.7.1.min.js"></script>
+        <script src="js/jqm-config.js"></script>
+        <script src="lib/jquery.mobile-1.0.1.min.js"></script>
+        <script src="lib/underscore-min.js"></script>
+        <script src="lib/backbone-min.js"></script>
+        <script src="js/main.js"></script>
     </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
-		
-	<div class="row">
-		<div class="col-md-4 col-md-offset-4"> 
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-				  <h3 class="panel-title"> Converter </h3>
-				</div>
-				<div class="panel-body">
-				    <form class="form-horizontal" role="form">
-						<h2> Fahrenheit to Celcius </h2>
-						<input type="text" class="form-control" id="fahrenheitTxt" placeholder="Fahrenheit" autofocus="">
-						<br/>
-						<button type="button" class="btn btn-default" id="convertBtn"> Convert </button>
-						<br/>
-						<br/>
-						<div class="alert alert-info" id="result">
-							
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>	
-		  
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
 
-	<script src="js/vendor/bootstrap.min.js"></script>
+    <body></body>
 
-	<script src="js/main.js"></script>
-    </body>
 </html>
