@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.xml.DOMConfigurator;
 
 /**
  *
@@ -29,6 +30,8 @@ public class StartupManager extends HttpServlet {
      */
     @Override
     public void init() {
+	String prefix =  getServletContext().getRealPath("/WEB-INF/classes");
+	DOMConfigurator.configure(prefix + "/log4j.xml");
         LOG.trace("init() called.");
     }
 
@@ -45,6 +48,7 @@ public class StartupManager extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        LOG.debug("processRequest() called method " + request.getMethod());
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */

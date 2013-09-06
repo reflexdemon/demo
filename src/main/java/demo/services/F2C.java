@@ -24,13 +24,12 @@ public class F2C {
     @HeaderParam("Access-Control-Allow-Origin: *")
     public Response convertFtoC() throws JSONException {
 
-	DemoVO jsonObject[] = new DemoVO[1];
-        jsonObject[0] = new DemoVO();
+	DemoVO jsonObject = new DemoVO();
 	float fahrenheit = 0.0f;
 	float celsius;
 	celsius = (fahrenheit - 32.0f) * 5.0f / 9.0f;
-	jsonObject[0].setFahrenheit(fahrenheit);
-	jsonObject[0].setCelsius(celsius);
+	jsonObject.setFahrenheit(fahrenheit);
+	jsonObject.setCelsius(celsius);
 	LOG.debug(fahrenheit + "F --> " + celsius + "C");
 
 	return Response.status(200).entity(jsonObject).build();
@@ -45,13 +44,12 @@ public class F2C {
 
 	
 	//System.out.println("convertFtoCfromInput(" + f + ")");
-	DemoVO jsonObject[] = new DemoVO[1];
-        jsonObject[0] = new DemoVO();
+	DemoVO jsonObject = new DemoVO();
 	float celsius;
 	float fahrenheit = f;
 	celsius = (fahrenheit - 32.0f) * 5.0f / 9.0f;
-	jsonObject[0].setFahrenheit(fahrenheit);
-	jsonObject[0].setCelsius(celsius);
+	jsonObject.setFahrenheit(fahrenheit);
+	jsonObject.setCelsius(celsius);
 	LOG.debug(fahrenheit + "F --> " + celsius + "C");
 	return Response.status(200).entity(jsonObject).build();
     }
