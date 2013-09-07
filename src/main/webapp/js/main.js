@@ -68,7 +68,7 @@ window.Result2View = Backbone.View.extend({
 		}).done(function(data) {
 			console.log("JSON Response:" + data);
                         console.log("Fahernheit:" + data.fahrenheit);
-			$("#output2").html(data.fahernheit);
+			$("#output2").html(data.fahrenheit);
 		});
         return this;
     }
