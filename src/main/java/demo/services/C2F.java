@@ -36,7 +36,7 @@ public class C2F {
 
 	LOG.debug(celsius + "C --> " + fahrenheit + "F");
 
-	return Response.status(200).entity("" + jsonObject).build();
+	return Response.status(200).entity(jsonObject).build();
     }
 
     @Path("{c}")
@@ -53,9 +53,9 @@ public class C2F {
 
 	jsonObject.setCelsius(celsius);
 	jsonObject.setFahrenheit(fahrenheit);
-	
+
 	LOG.debug(celsius + "C --> " + fahrenheit + "F");
 
-	return Response.status(200).entity("" + jsonObject).build();
+	return Response.status(200).entity(jsonObject).build();
     }
 }
