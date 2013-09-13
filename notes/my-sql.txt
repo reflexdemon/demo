@@ -1,0 +1,83 @@
+mysql-5.1 (MySQL Database 5.1)
+------------------------------
+  Gears:          Located with jbossews-2.0
+  Connection URL: mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/
+  Database Name:  demo
+  Password:       VLhaLhH_vBXK
+  Username:       adminMNUa44i
+
+
+For local DB Connection use port forwarding.
+
+>rhc port-forward -a demo
+
+mysql://localhost:3306/demo
+
+MySQL 5.1 database added.  Please make note of these credentials:
+       Root User: adminMNUa44i
+   Root Password: VLhaLhH_vBXK
+   Database Name: demo
+Connection URL: mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/
+You can manage your new MySQL database by also embedding phpmyadmin-3.
+The phpmyadmin username and password will be the same as the MySQL credentials above.
+
+
+To start my sql>gear start --cart mysql-5.1
+
+
+OPENSHIFT_MYSQL_DB_HOST="127.5.109.2"
+OPENSHIFT_MYSQL_DB_LOG_DIR="/var/lib/openshift/521ac5c25973ca1cd000019a/mysql//log/"
+OPENSHIFT_MYSQL_DB_PASSWORD="VLhaLhH_vBXK"
+OPENSHIFT_MYSQL_DB_PORT="3306"
+OPENSHIFT_MYSQL_DB_SOCKET="/var/lib/openshift/521ac5c25973ca1cd000019a/mysql//socket/mysql.sock"
+OPENSHIFT_MYSQL_DB_URL="mysql://adminMNUa44i:VLhaLhH_vBXK@127.5.109.2:3306/"
+OPENSHIFT_MYSQL_DB_USERNAME="adminMNUa44i"
+
+
+
+To add PHP admin>rhc cartridge add phpmyadmin-3 -a demo
+
+phpmyadmin-3 (phpMyAdmin 3.4)
+-----------------------------
+  Gears:          Located with jbossews-2.0, mysql-5.1
+  Connection URL: https://demo-venkatvp.rhcloud.com/phpmyadmin/
+
+Please make note of these MySQL credentials again:
+  Root User: adminMNUa44i
+  Root Password: VLhaLhH_vBXK
+URL: https://demo-venkatvp.rhcloud.com/phpmyadmin/
+
+
+
+
+-- --------------------------------------------------------
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+
+--
+-- Database: `demo`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `CUSTOMER`
+--
+
+CREATE TABLE IF NOT EXISTS `CUSTOMER` (
+  `ID` int(11) NOT NULL,
+  `NAME` text NOT NULL,
+  `AGE` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID` (`ID`),
+  KEY `ID_2` (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `CUSTOMER`
+--
+
+INSERT INTO `CUSTOMER` (`ID`, `NAME`, `AGE`) VALUES
+(1, 'Harini', 28),
+(2, 'Venkat', 33),
+(3, 'Navya', 2);

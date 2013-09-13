@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html class="ui-mobile-rendering">
+    <head>
+        <title>Temprature Convertion</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
+
+        <!-- The Templates -->
+        <script type="text/template" id="home">
+
+            <div data-role="header">
+            <h1>Temprature Convertion Utility</h1>
+            </div>
+
+            <div data-role="content">
+            <h3>Here is something you can use to convert temprature</h3>
+            <p>This is a temprature convertion utility created for learning HTML5</p>
+            <p>Navigate to:</p>
+            <ul data-role="listview"  data-inset="true">
+            <li><a href="#page1">Fahrenheit to Celsius</a></li>
+            <li><a href="#page2">Celsius to Fahrenheit</a></li>
+            </ul>
+            </div>
+
+        </script>
+
+        <script type="text/template" id="page1">
+
+            <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Fahrenheit to Celsius</h1>
+            </div>
+
+            <div data-role="content">
+            <p>
+            <input type="text" class="input-block-level" placeholder="Fahrenheit value" id="fahrenheitTxt">
+            </p>
+            <p>Navigate to:</p>
+            <ul data-role="listview" data-inset="true">
+            <li><a href="#result1">Convert</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#page2">Celsius to Fahrenheit</a></li>
+            </ul>
+            </div>
+
+        </script>
+
+        <script type="text/template" id="page2">
+
+            <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Celsius to Fahrenheit</h1>
+            </div>
+
+            <div data-role="content">
+            <p>
+            <input type="text" class="input-block-level" placeholder="Celsius value" id="celsiusTxt">
+            </p>
+            <p>Navigate to:</p>
+            <ul data-role="listview" data-inset="true">
+            <li><a href="#result2">Convert</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#page1">Fahrenheit to Celsius</a></li>
+            </ul>
+            </div>
+
+        </script>
+        <script type="text/template" id="result1">
+            <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Fahrenheit to Celsius result</h1>
+            </div>
+
+            <div data-role="content">
+            <p>
+            <span class="label" id="output1" data-role="content">0.0</span> 
+            </p>
+            <p>Navigate to:</p>
+            <ul data-role="listview" data-inset="true">
+            <li><a href="#">Home</a></li>
+            </ul>
+            </div>
+        </script>
+        <script type="text/template" id="result2">
+            <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Celsius to Fahrenheit result</h1>
+            </div>
+
+            <div data-role="content">
+            <p>
+            <span class="label" id="output2" data-role="content">0.0</span> 
+            </p>
+            <p>Navigate to:</p>
+            <ul data-role="listview" data-inset="true">
+            <li><a href="#">Home</a></li>
+            </ul>
+            </div>
+        </script>
+
+
+        <!-- The Scripts -->
+        <script src="lib/jquery-1.7.1.min.js"></script>
+        <script src="js/jqm-config.js"></script>
+        <script src="lib/jquery.mobile-1.0.1.min.js"></script>
+        <script src="lib/underscore-min.js"></script>
+        <script src="lib/backbone-min.js"></script>
+        <script src="js/main.js"></script>
+    </head>
+
+    <body></body>
+
+</html>
