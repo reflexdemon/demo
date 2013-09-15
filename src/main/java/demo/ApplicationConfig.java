@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application {
         resources.add(demo.services.C2F.class);
         resources.add(demo.services.DemoEmployee.class);
         resources.add(demo.services.F2C.class);
+        resources.add(demo.services.db.service.CustomerFacadeREST.class);
     }
     
 }
