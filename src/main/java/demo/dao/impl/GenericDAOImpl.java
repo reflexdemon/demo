@@ -4,8 +4,12 @@
 package demo.dao.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import demo.dao.GenericDAO;
 
@@ -15,22 +19,18 @@ import demo.dao.GenericDAO;
  */
 public class GenericDAOImpl implements GenericDAO {
 
-	// JDBC driver name and database URL
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	// static final String DB_URL =
-	// "mysql://adminMNUa44i:VLhaLhH_vBXK@127.5.109.2:3306/";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/demo";
-
-	// Database credentials
-	static final String USER = "adminMNUa44i";
-	static final String PASS = "VLhaLhH_vBXK";
-
+	/** The Constant JNDI_NAME. */
+	static final String JNDI_NAME = "jdbc/MysqlDS"; 
+	
 	@Override
-	public Connection getConnection() throws ClassNotFoundException, SQLException {
-		Class.forName(JDBC_DRIVER);
-		return DriverManager.getConnection(DB_URL, USER, PASS);
-
+	public Connection getConnection() throws NamingException, SQLException {
+		Context initContext = new InitialContext();
+		Context envContext  = (Context)initContext.lookup("java:/comp/env");
+		DataSource ds = (DataSource)envContext.lookup(JNDI_NAME);
+		return  ds.getConnection();
 	}
+	
+	
 
 	/**
 	 * @param args

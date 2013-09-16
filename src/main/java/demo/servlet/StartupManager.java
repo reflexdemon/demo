@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package demo.servlet;
 
 import java.io.IOException;
@@ -14,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.xml.DOMConfigurator;
 
 /**
  *
@@ -30,8 +25,6 @@ public class StartupManager extends HttpServlet {
      */
     @Override
     public void init() {
-	String prefix =  getServletContext().getRealPath("/WEB-INF/classes");
-	DOMConfigurator.configure(prefix + "/log4j.xml");
         LOG.trace("init() called.");
     }
 
