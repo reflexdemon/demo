@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.NamingException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -43,9 +45,10 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
 				customer.setName(resultset.getString("NAME"));
 				customer.setAge(resultset.getString("AGE"));
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if (null != connection) {
@@ -59,7 +62,6 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
 		LOG.debug("exitting findById with " + customer);
 		return customer;
 	}
-
 
 	@Override
 	public List<Customer> findAll() {
@@ -80,9 +82,10 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
 				customer.setAge(resultset.getString("AGE"));
 				list.add(customer);
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if (null != connection) {
