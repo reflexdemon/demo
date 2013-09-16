@@ -4,6 +4,8 @@
  */
 package demo.services;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -44,9 +46,17 @@ public class DemoCustomer {
 	@GET
 	@Path("/data/{customerid}")
 	@Produces("application/json")
-	public Customer getJson(@PathParam("customerid") String customerid) {
+	public Customer getCustomer(@PathParam("customerid") String customerid) {
 		LOG.debug("customerid:" + customerid);
-		return dao.getCustomer(customerid);
+		return dao.findById(customerid);
 
-	} // end of
+	}
+	
+	@GET
+	@Path("/data")
+	@Produces("application/json")
+	public List<Customer> getAllCustomer() {
+		return dao.findAll();
+
+	}
 }

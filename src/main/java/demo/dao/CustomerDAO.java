@@ -1,11 +1,14 @@
 package demo.dao;
 
+import java.util.List;
+
 import demo.domain.Customer;
 
 /**
  * The Interface CustomerDAO.
  */
 public interface CustomerDAO extends GenericDAO {
+	
 
 	/**
 	 * Gets the customer.
@@ -13,7 +16,13 @@ public interface CustomerDAO extends GenericDAO {
 	 * @param id the id
 	 * @return the customer
 	 */
-	public Customer getCustomer(String id);
+	public Customer findById(String id);
 
+	/**
+	 * Find all.
+	 *
+	 * @return the customer
+	 */
+	public List<Customer> findAll();
 	
 }
