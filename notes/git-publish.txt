@@ -1,0 +1,21 @@
+
+1) Get the code from GIT to OpenShift GIT
+git pull git@github.com:reflexdemon/demo.git
+
+2) Get the status
+git status
+
+3) Adding newely added resources in notes, src and webapps
+git add notes\*
+git add src\*
+git add webapps\*
+
+git status
+
+
+Echo "committing the changes with Version from GIT HUB %DATE% %TIME%"
+git commit -am "Version from GIT HUB %DATE% %TIME%"
+
+
+Echo "We are all set to push the changes to the production!"
+git push
