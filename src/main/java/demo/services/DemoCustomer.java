@@ -29,34 +29,35 @@ import demo.domain.Customer;
 // make this class process this url. empno is a variable that represents
 // employee number.
 public class DemoCustomer {
-	/** The log. */
-	private static Log LOG = LogFactory.getLog(DemoCustomer.class.getName());
-	@Context
-	private UriInfo context;
-
-	/** The dao. */
-	private CustomerDAO dao = new CustomerDAOImpl();
-
-	/**
-	 * Creates a new instance of DemoCustomer
-	 */
-	public DemoCustomer() {
-	}
-
-	@GET
-	@Path("/data/{customerid}")
-	@Produces("application/json")
-	public Customer getCustomer(@PathParam("customerid") String customerid) {
-		LOG.debug("customerid:" + customerid);
-		return dao.findById(customerid);
-
-	}
-	
-	@GET
-	@Path("/data")
-	@Produces("application/json")
-	public List<Customer> getAllCustomer() {
-		return dao.findAll();
-
-	}
+   /** The log. */
+   private static Log LOG = LogFactory.getLog(DemoCustomer.class.getName());
+   @Context
+   private UriInfo context;
+   
+   /** The dao. */
+   private final CustomerDAO dao = new CustomerDAOImpl();
+   
+   /**
+    * Creates a new instance of DemoCustomer
+    */
+   public DemoCustomer() {
+   }
+   
+   @GET
+   @Path("/data/{customerid}")
+   @Produces("application/json")
+   public Customer getCustomer(@PathParam("customerid") final String customerid) {
+      LOG.debug("customerid:" + customerid);
+      return dao.findById(customerid);
+      
+   }
+   
+   @GET
+   @Path("/data")
+   @Produces("application/json")
+   public List<Customer> getAllCustomer() {
+      LOG.debug("Fetch All");
+      return dao.findAll();
+      
+   }
 }
