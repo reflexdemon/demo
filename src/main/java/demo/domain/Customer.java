@@ -75,10 +75,23 @@ public class Customer implements Serializable {
 	public String toString(){
 		StringBuilder builder = new StringBuilder();
 		builder.append("{");
-		builder.append("(Id:").append(Id).append(")");
-		builder.append("(name:").append(name).append(")");
-		builder.append("(age:").append(age).append(")");
+		builder.append("\"id\":\"").append(getValue(Id)).append("\",");
+		builder.append("\"name\":\"").append(getValue(name)).append("\",");
+		builder.append("\"age\":\"").append(getValue(age)).append("\")");
 		builder.append("}");
 		return builder.toString();
+	}
+
+	/**
+	 * Gets the value.
+	 *
+	 * @param data the data
+	 * @return the value
+	 */
+	private String getValue(String data) {
+		if (null == data) {
+			return "";
+		}
+		return data;
 	}
 }
