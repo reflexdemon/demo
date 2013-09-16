@@ -29,7 +29,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(demo.services.C2F.class);
-        resources.add(demo.services.DemoEmployee.class);
+        resources.add(demo.services.DemoCustomer.class);
         resources.add(demo.services.F2C.class);
     }
     
