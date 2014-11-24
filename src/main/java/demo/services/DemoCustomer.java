@@ -26,8 +26,7 @@ import demo.domain.Customer;
  * @author ctsuser1
  */
 @Path("customer")
-// make this class process this url. empno is a variable that represents
-// employee number.
+// make this class process this url.
 public class DemoCustomer {
    /** The log. */
    private static Log LOG = LogFactory.getLog(DemoCustomer.class.getName());
@@ -43,8 +42,14 @@ public class DemoCustomer {
    public DemoCustomer() {
    }
    
+   /**
+    * Gets the customer.
+    *
+    * @param customerid the customerid
+    * @return the customer
+    */
    @GET
-   @Path("/data/{customerid}")
+   @Path("{customerid}")
    @Produces("application/json")
    public Customer getCustomer(@PathParam("customerid") final String customerid) {
       LOG.debug("customerid:" + customerid);
@@ -52,8 +57,12 @@ public class DemoCustomer {
       
    }
    
+   /**
+    * Gets the all customer.
+    *
+    * @return the all customer
+    */
    @GET
-   @Path("/data")
    @Produces("application/json")
    public List<Customer> getAllCustomer() {
       LOG.debug("Fetch All");
