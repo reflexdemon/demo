@@ -6,11 +6,13 @@ package demo.services;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.logging.Log;
@@ -51,7 +53,9 @@ public class DemoCustomer {
    @GET
    @Path("{customerid}")
    @Produces("application/json")
-   public Customer getCustomer(@PathParam("customerid") final String customerid) {
+    public Customer getCustomer(
+            @PathParam("customerid") final String customerid,
+            @Context HttpHeaders header, @Context HttpServletResponse response) {
       LOG.debug("customerid:" + customerid);
       return dao.findById(customerid);
       
@@ -64,7 +68,7 @@ public class DemoCustomer {
     */
    @GET
    @Produces("application/json")
-   public List<Customer> getAllCustomer() {
+   public List<Customer> getAllCustomer(@Context HttpHeaders header, @Context HttpServletResponse response) {
       LOG.debug("Fetch All");
       return dao.findAll();
       
