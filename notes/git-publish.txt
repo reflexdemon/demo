@@ -2,11 +2,14 @@
 1) Get the code from GIT to OpenShift GIT
 git pull git@github.com:reflexdemon/demo.git
 
+Openshift GIT:
+ssh://521ac5c25973ca1cd000019a@demo-venkatvp.rhcloud.com/~/git/demo.git/
+
 2) Get the status
 git status
 
 3) Adding newely added resources in notes, src and webapps
-git add notes\*
+
 git add src\*
 git add webapps\*
 
