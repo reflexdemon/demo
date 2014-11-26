@@ -7,9 +7,9 @@ import org.codehaus.jettison.json.JSONStringer;
 import com.sun.xml.bind.v2.model.core.ID;
 
 /**
- * 
+ *
  * @author Venkateswara
- * 
+ *
  */
 public class Customer implements Serializable {
 

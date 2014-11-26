@@ -6,11 +6,15 @@ package demo.services;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.logging.Log;
@@ -26,38 +30,69 @@ import demo.domain.Customer;
  * @author ctsuser1
  */
 @Path("customer")
-// make this class process this url. empno is a variable that represents
-// employee number.
+// make this class process this url.
 public class DemoCustomer {
-   /** The log. */
-   private static Log LOG = LogFactory.getLog(DemoCustomer.class.getName());
-   @Context
-   private UriInfo context;
-   
-   /** The dao. */
-   private final CustomerDAO dao = new CustomerDAOImpl();
-   
-   /**
-    * Creates a new instance of DemoCustomer
-    */
-   public DemoCustomer() {
-   }
-   
-   @GET
-   @Path("/data/{customerid}")
-   @Produces("application/json")
-   public Customer getCustomer(@PathParam("customerid") final String customerid) {
-      LOG.debug("customerid:" + customerid);
-      return dao.findById(customerid);
-      
-   }
-   
-   @GET
-   @Path("/data")
-   @Produces("application/json")
-   public List<Customer> getAllCustomer() {
-      LOG.debug("Fetch All");
-      return dao.findAll();
-      
-   }
+    /** The log. */
+    private static Log LOG = LogFactory.getLog(DemoCustomer.class.getName());
+    @Context
+    private UriInfo context;
+
+    /** The dao. */
+    private final CustomerDAO dao = new CustomerDAOImpl();
+
+    /**
+     * Creates a new instance of DemoCustomer
+     */
+    public DemoCustomer() {
+    }
+
+    /**
+     * Gets the customer.
+     *
+     * @param customerid
+     *            the customerid
+     * @return the customer
+     */
+    @GET
+    @Path("{customerid}")
+    @Produces("application/json")
+    public Customer getCustomer(@PathParam("customerid") final String customerid) {
+        LOG.debug("customerid:" + customerid);
+        return dao.findById(customerid);
+
+    }
+
+    @PUT
+    @Path("{customerid}")
+    @Produces("application/json")
+    public Customer updateCustomer(
+            @PathParam("customerid") final String customerid, Customer customer) {
+        LOG.debug("customerid:" + customerid);
+        return dao.updateCustomer(customerid, customer);
+
+    }
+
+    @DELETE
+    @Path("{customerid}")
+    @Produces("application/json")
+    public void updateCustomer(@PathParam("customerid") final String customerid) {
+        LOG.debug("customerid:" + customerid);
+        dao.deleteCustomer(customerid);
+        ;
+
+    }
+
+    /**
+     * Gets the all customer.
+     *
+     * @return the all customer
+     */
+    @GET
+    @Produces("application/json")
+    public List<Customer> getAllCustomer(@Context HttpHeaders header,
+            @Context HttpServletResponse response) {
+        LOG.debug("Fetch All");
+        return dao.findAll();
+
+    }
 }

@@ -24,5 +24,22 @@ public interface CustomerDAO extends GenericDAO {
 	 * @return the customer
 	 */
 	public List<Customer> findAll();
+
+
+    /**
+     * Update customer.
+     *
+     * @param customerid the customerid
+     * @param customer the customer
+     * @return the customer
+     */
+    public Customer updateCustomer(String customerid, Customer customer);
+    
+    /**
+     * Delete customer.
+     *
+     * @param customerid the customerid
+     */
+    public void deleteCustomer(String customerid);
 	
 }
