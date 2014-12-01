@@ -20,7 +20,8 @@ import org.codehaus.jackson.map.SerializationConfig;
  */
 public class DebugUtils {
    private static boolean debug = Boolean.valueOf(System.getProperty("debug", "true"));
-   public static int MAX_LENGTH=65;
+   
+   public static int MAX_LENGTH=55;
    public static String NAMEVALUEKEY = "=";
    public static final String debugString(Object o) {
       return debugString(o, 0);
