@@ -1,7 +1,6 @@
 package demo.dao.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import javax.naming.Context;
@@ -13,7 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import demo.dao.GenericDAO;
-import demo.dao.util.TestDataSource;
+import demo.dao.utils.TestDataSource;
 
 /**
  * Basically I am not with having this class to get JDBC connection. We should

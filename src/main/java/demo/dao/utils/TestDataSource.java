@@ -1,4 +1,4 @@
-package demo.dao.util;
+package demo.dao.utils;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
