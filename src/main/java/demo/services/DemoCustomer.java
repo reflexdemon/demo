@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -95,4 +96,17 @@ public class DemoCustomer {
         return dao.findAll();
 
     }
+
+    /**
+     * Adds the customer.
+     *
+     * @param customer the customer
+     * @return the customer
+     */
+    @POST
+    @Produces("application/json")
+    public Customer addCustomer(Customer customer) {
+        return dao.addCustomer(customer);
+    }
+
 }

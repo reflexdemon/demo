@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 import javax.naming.NamingException;
 
@@ -32,12 +34,13 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
     /** The Constant GET_CUSTOMER. */
     private static final String GET_CUSTOMER = "SELECT ID, NAME, AGE FROM CUSTOMER WHERE ID = ? ";
 
-
     /** The Constant UPDATE_CUSTOMER. */
     private static final String UPDATE_CUSTOMER = "UPDATE CUSTOMER SET NAME= ?, AGE = ? WHERE ID = ? ";
 
     private static final String DELETE_CUSTOMER = "DELETE CUSTOMER WHERE ID = ? ";
-    
+
+    private static final String ADD_CUSTOMER = "INSERT INTO CUSTOMER (ID, NAME, AGE) VALUES (?, ?, ?)";
+
     /** The Constant GET_ALL. */
     private static final String GET_ALL = "SELECT ID, NAME, AGE FROM CUSTOMER";
 
@@ -121,14 +124,17 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
         return list;
     }
 
-    /* (non-Javadoc)
-     * @see demo.dao.CustomerDAO#updateCustomer(java.lang.String, demo.domain.Customer)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see demo.dao.CustomerDAO#updateCustomer(java.lang.String,
+     * demo.domain.Customer)
      */
     @Override
     public Customer updateCustomer(String customerid, Customer customer) {
         LOG.debug("entering updateCustomer with " + customerid);
         final Customer cust = findById(customerid);
-        //I should have avoided this. My bad!! 
+        // I should have avoided this. My bad!!
         customer = sync(customer, cust);
         int parameterIndex = 0;
         Connection connection = null;
@@ -162,6 +168,50 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see demo.dao.CustomerDAO#updateCustomer(java.lang.String,
+     * demo.domain.Customer)
+     */
+    @Override
+    public Customer addCustomer(Customer customer) {
+        LOG.debug("entering addCustomer with " +  customer);
+        
+        //Setting a newly generated ID
+        customer.setId(guid());
+        int parameterIndex = 0;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(ADD_CUSTOMER);
+            statement.setInt(++parameterIndex, Integer.parseInt(customer.getId()));
+            statement.setString(++parameterIndex, customer.getName());
+            statement.setString(++parameterIndex, customer.getAge());
+            LOG.debug("Executing statement:" + ADD_CUSTOMER);
+            final int result = statement.executeUpdate();
+            if (result < 0) {
+                LOG.warn("No records affected!!!");
+            }
+        } catch (final SQLException e) {
+            LOG.error(e.getMessage(), e);
+        } catch (final NamingException e) {
+            LOG.error(e.getMessage(), e);
+        } finally {
+            if (null != connection) {
+                try {
+                    connection.close();
+                } catch (final SQLException e) {
+                    throw new RuntimeException("Unable to close connection!", e);
+                }
+            }
+        }
+        LOG.debug("exitting updateCustomer with " + customer);
+        return customer;
+
+    }
+
     private Customer sync(Customer customer, Customer cust) {
         if (null != customer) {
             if (null == customer.getAge()) {
@@ -172,10 +222,12 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
             }
         }
         return customer;
-        
+
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see demo.dao.CustomerDAO#deleteCustomer(java.lang.String)
      */
     @Override
@@ -210,6 +262,14 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
 
     }
 
-   
 
+    /**
+     * Guid.
+     *
+     * @return the string
+     */
+    private static final String guid() {
+       int number = (int) Math.random();
+       return Integer.toString(number);
+    }
 }
