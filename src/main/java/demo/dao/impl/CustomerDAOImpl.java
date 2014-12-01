@@ -32,12 +32,14 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
             .getName());
 
     /** The Constant GET_CUSTOMER. */
-    private static final String GET_CUSTOMER = "SELECT ID, NAME, AGE FROM CUSTOMER WHERE ID = ? ";
+    private static final String GET_CUSTOMER = "SELECT CUSTOMER.ID, CUSTOMER.NAME, CUSTOMER.AGE FROM demo.CUSTOMER WHERE CUSTOMER.ID = ? ";
+    private static final String NEXT = "SELECT max( id ) +1 AS NEXT FROM demo.CUSTOMER";
+    
 
     /** The Constant UPDATE_CUSTOMER. */
-    private static final String UPDATE_CUSTOMER = "UPDATE CUSTOMER SET NAME= ?, AGE = ? WHERE ID = ? ";
-
-    private static final String DELETE_CUSTOMER = "DELETE CUSTOMER WHERE ID = ? ";
+    private static final String UPDATE_CUSTOMER = "UPDATE demo.CUSTOMER SET CUSTOMER.NAME= ?, CUSTOMER.AGE = ? WHERE CUSTOMER.ID = ? ";
+    
+    private static final String DELETE_CUSTOMER = "DELETE FROM demo.CUSTOMER WHERE CUSTOMER.ID = ?";
 
     private static final String ADD_CUSTOMER = "INSERT INTO CUSTOMER (ID, NAME, AGE) VALUES (?, ?, ?)";
 
@@ -218,7 +220,7 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
                 customer.setAge(cust.getAge());
             }
             if (null == customer.getName()) {
-                customer.setAge(cust.getName());
+                customer.setName(cust.getName());
             }
         }
         return customer;
@@ -265,11 +267,38 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
 
     /**
      * Guid.
+     * I know this is bad logic but this was done for the purpose of
+     * learning UI code rather than backend. Focus is on UI, UI and UI.
      *
      * @return the string
      */
-    private static final String guid() {
-       int number = (int) Math.random();
-       return Integer.toString(number);
+    private final String guid() {
+        LOG.debug("entering guid()");
+        String result = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(NEXT);
+            LOG.debug("Executing statement:" + NEXT);
+            final ResultSet resultset = statement.executeQuery();
+            if (resultset.next()) {
+                result = resultset.getString("NEXT");
+            }
+        } catch (final SQLException e) {
+            LOG.error(e.getMessage(), e);
+        } catch (final NamingException e) {
+            LOG.error(e.getMessage(), e);
+        } finally {
+            if (null != connection) {
+                try {
+                    connection.close();
+                } catch (final SQLException e) {
+                    throw new RuntimeException("Unable to close connection!", e);
+                }
+            }
+        }
+        LOG.debug("exitting with " + result);
+        return result;
     }
 }

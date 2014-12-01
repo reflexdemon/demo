@@ -11,7 +11,9 @@ For local DB Connection use port forwarding.
 
 >rhc port-forward -a demo
 
-mysql://localhost:3306/demo
+Manual Port Forward:
+ssh -L 3306:127.5.109.2:3306 521ac5c25973ca1cd000019a@demo-venkatvp.rhcloud.com cat -
+jdbc:mysql://localhost:3306/demo
 
 MySQL 5.1 database added.  Please make note of these credentials:
        Root User: adminMNUa44i
