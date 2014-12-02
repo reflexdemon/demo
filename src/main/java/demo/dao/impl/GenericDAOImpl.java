@@ -12,7 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import demo.dao.GenericDAO;
-import demo.dao.utils.TestDataSource;
 
 /**
  * Basically I am not with having this class to get JDBC connection. We should
