@@ -76,10 +76,10 @@ public class DemoCustomer {
     @DELETE
     @Path("{customerid}")
     @Produces("application/json")
-    public void updateCustomer(@PathParam("customerid") final String customerid) {
-        LOG.debug("customerid:" + customerid);
-        dao.deleteCustomer(customerid);
-        ;
+    public String deleteCustomer(@PathParam("customerid") final String customerid) {
+        LOG.debug("deleteCustomer customerid:" + customerid);
+        return dao.deleteCustomer(customerid);
+        
 
     }
 

@@ -39,8 +39,9 @@ public interface CustomerDAO extends GenericDAO {
      * Delete customer.
      *
      * @param customerid the customerid
+     * @return 
      */
-    public void deleteCustomer(String customerid);
+    public String deleteCustomer(String customerid);
 
     /**
      * Adds the customer.

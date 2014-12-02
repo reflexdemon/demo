@@ -233,7 +233,7 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
      * @see demo.dao.CustomerDAO#deleteCustomer(java.lang.String)
      */
     @Override
-    public void deleteCustomer(String customerid) {
+    public String deleteCustomer(String customerid) {
         LOG.debug("entering deleteCustomer with " + customerid);
 
         int parameterIndex = 0;
@@ -261,7 +261,7 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
                 }
             }
         }
-
+        return customerid;
     }
 
 
