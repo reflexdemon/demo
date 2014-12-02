@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -14,7 +16,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import demo.dao.CustomerDAO;
+import demo.dao.GenericDAO;
 import demo.dao.utils.DebugUtils;
+import demo.dao.utils.TestDataSource;
 import demo.domain.Customer;
 
 /**
@@ -22,6 +26,28 @@ import demo.domain.Customer;
  *
  */
 public class CustomerDAOImplTest {
+    static final String MODE = System.getProperty("mode");
+
+    /** The url. */
+    private String url = "jdbc:mysql://localhost:3306/demo";
+
+    /** The user. */
+    private String user = "adminMNUa44i";
+
+    /** The pass. */
+    private String pass = "VLhaLhH_vBXK";
+
+    private String driver = "com.mysql.jdbc.Driver";
+    /**
+     * Gets the dev source.
+     *
+     * @return the dev source
+     */
+    private DataSource getDevSource() {
+        TestDataSource ds = new TestDataSource(url, user, pass); 
+                ds.setDriver(driver);
+        return ds;
+    }    
     CustomerDAO dao;
     private String id = null;
     /**
@@ -37,6 +63,7 @@ public class CustomerDAOImplTest {
     @Before
     public void setUp() throws Exception {
         dao = new CustomerDAOImpl();
+        GenericDAOImpl.setSource(getDevSource());
     }
 
     /**

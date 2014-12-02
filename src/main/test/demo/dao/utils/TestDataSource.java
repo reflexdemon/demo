@@ -5,12 +5,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.sql.CommonDataSource;
 import javax.sql.DataSource;
 
 /**
  * The Class TestDataSource.
  */
-public class TestDataSource implements DataSource {
+public class TestDataSource implements DataSource, CommonDataSource {
 
     /** The out. */
     static PrintWriter out = new PrintWriter(System.out);

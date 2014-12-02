@@ -29,18 +29,7 @@ public class GenericDAOImpl implements GenericDAO {
     /** The Constant JNDI_NAME. */
     static final String JNDI_NAME = "jdbc/MysqlDS";
 
-    static final String MODE = System.getProperty("mode");
-
-    /** The url. */
-    private String url = "jdbc:mysql://localhost:3306/demo";
-
-    /** The user. */
-    private String user = "adminMNUa44i";
-
-    /** The pass. */
-    private String pass = "VLhaLhH_vBXK";
-
-    private String driver = "com.mysql.jdbc.Driver";
+    private static DataSource source = null;
 
     /*
      * (non-Javadoc)
@@ -51,37 +40,45 @@ public class GenericDAOImpl implements GenericDAO {
     public Connection getConnection() throws NamingException, SQLException {
 
         DataSource ds = null;
-        if (!isDev()) {
-            ds = getDataSource();
-        } else {
-            ds = getDevSource();
-        }
+        ds = getDataSource();
         LOG.debug("returning connection");
         return ds.getConnection();
     }
 
+
+    
     /**
-     * Gets the dev source.
+     * Gets the data source.
      *
-     * @return the dev source
+     * @return the data source
+     * @throws NamingException the naming exception
      */
-    private DataSource getDevSource() {
-        TestDataSource ds = new TestDataSource(url, user, pass); 
-                ds.setDriver(driver);
+    private DataSource getDataSource() throws NamingException {
+        DataSource ds = null;
+        if (source == null) {
+            final Context initContext = new InitialContext();
+            LOG.debug("Looking up for connection");
+            final Context envContext = (Context) initContext
+                    .lookup("java:/comp/env");
+            ds = (DataSource) envContext.lookup(JNDI_NAME);
+        } else {
+            ds = source;//Only to run junit
+        }
         return ds;
     }
-    
-    private DataSource getDataSource() throws NamingException {
-        final Context initContext = new InitialContext();
-        LOG.debug("Looking up for connection");
-        final Context envContext = (Context) initContext
-                .lookup("java:/comp/env");
-        final DataSource ds = (DataSource) envContext.lookup(JNDI_NAME);
-        return ds;
+    /**
+     * @return the source
+     */
+    public static DataSource getSource() {
+        return source;
     }
 
-    protected boolean isDev() {
-        LOG.debug("Debug Mode:::" + MODE);
-        return (MODE == null) ? false : MODE.equalsIgnoreCase("dev");
+    /**
+     * @param source the source to set
+     */
+    public static void setSource(DataSource source) {
+        GenericDAOImpl.source = source;
     }
+
+
 }
