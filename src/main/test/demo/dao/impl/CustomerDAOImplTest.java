@@ -18,6 +18,7 @@ import org.junit.Test;
 import demo.dao.CustomerDAO;
 import demo.dao.GenericDAO;
 import demo.dao.utils.DebugUtils;
+import demo.dao.utils.DemoException;
 import demo.dao.utils.TestDataSource;
 import demo.domain.Customer;
 
@@ -75,7 +76,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test
-    public void testAll() {
+    public void testAll() throws DemoException {
         testFindAll();
         testAddCustomer();
         testUpdateCustomer();
@@ -85,9 +86,10 @@ public class CustomerDAOImplTest {
 
     /**
      * Test method for {@link demo.dao.impl.CustomerDAOImpl#findAll()}.
+     * @throws DemoException 
      */
 //    @Test
-    public void testFindAll() {
+    public void testFindAll() throws DemoException {
         List<Customer> result = dao.findAll();
         System.out.println(DebugUtils.jsonDebug(result, true));
         Assert.assertNotNull(result);
@@ -96,21 +98,23 @@ public class CustomerDAOImplTest {
 
     /**
      * Test method for {@link demo.dao.impl.CustomerDAOImpl#addCustomer(demo.domain.Customer)}.
+     * @throws DemoException 
      */
 //    @Test
-    public void testAddCustomer() {
+    public void testAddCustomer() throws DemoException {
         Customer newCust = new Customer();
         newCust.setName("DUMMY NAME");
-        newCust.setAge("100");
+        newCust.setAge("123");
         Customer created = dao.addCustomer(newCust);
         id = created.getId();
         System.out.println("Create new customer:" + created);
     }
     /**
      * Test method for {@link demo.dao.impl.CustomerDAOImpl#updateCustomer(java.lang.String, demo.domain.Customer)}.
+     * @throws DemoException 
      */
 //    @Test
-    public void testUpdateCustomer() {
+    public void testUpdateCustomer() throws DemoException {
         Assert.assertNotNull("ID Cannot be null!", id);
         Customer customer = new Customer();
         customer.setAge("10");
@@ -120,9 +124,10 @@ public class CustomerDAOImplTest {
 
     /**
      * Test method for {@link demo.dao.impl.CustomerDAOImpl#findById(java.lang.String)}.
+     * @throws DemoException 
      */
 //    @Test
-    public void testFindById() {
+    public void testFindById() throws DemoException {
         Assert.assertNotNull("ID Cannot be null!", id);
         Customer result = dao.findById(id);
         System.out.println(DebugUtils.jsonDebug(result, true));
@@ -130,9 +135,10 @@ public class CustomerDAOImplTest {
     }
     /**
      * Test method for {@link demo.dao.impl.CustomerDAOImpl#deleteCustomer(java.lang.String)}.
+     * @throws DemoException 
      */
 //    @Test
-    public void testDeleteCustomer() {
+    public void testDeleteCustomer() throws DemoException {
         Assert.assertNotNull("ID Cannot be null!", id);
         dao.deleteCustomer(id);
         System.out.println("Deleted " + id);

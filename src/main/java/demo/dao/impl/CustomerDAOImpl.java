@@ -9,8 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 import javax.naming.NamingException;
 
@@ -18,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import demo.dao.CustomerDAO;
+import demo.dao.utils.DemoException;
 import demo.domain.Customer;
 
 /**
@@ -52,7 +51,7 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
      * @see demo.dao.CustomerDAO#findById(java.lang.String)
      */
     @Override
-    public Customer findById(final String id) {
+    public Customer findById(final String id) throws DemoException {
         LOG.debug("entering findById with " + id);
         final Customer customer = new Customer();
         int parameterIndex = 0;
@@ -71,8 +70,10 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
             }
         } catch (final SQLException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("findById", "Error while performing findById", e);
         } catch (final NamingException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("findById", "Error while performing findById", e);
         } finally {
             if (null != connection) {
                 try {
@@ -92,7 +93,7 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
      * @see demo.dao.CustomerDAO#findAll()
      */
     @Override
-    public List<Customer> findAll() {
+    public List<Customer> findAll() throws DemoException {
         LOG.debug("entering findAll");
         final List<Customer> list = new ArrayList<Customer>();
         Connection connection = null;
@@ -111,8 +112,10 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
             }
         } catch (final SQLException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("findAll", "Error while performing findAll", e);
         } catch (final NamingException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("findAll", "Error while performing findAll", e);
         } finally {
             if (null != connection) {
                 try {
@@ -133,7 +136,7 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
      * demo.domain.Customer)
      */
     @Override
-    public Customer updateCustomer(String customerid, Customer customer) {
+    public Customer updateCustomer(String customerid, Customer customer) throws DemoException {
         LOG.debug("entering updateCustomer with " + customerid);
         final Customer cust = findById(customerid);
         // I should have avoided this. My bad!!
@@ -154,8 +157,10 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
             }
         } catch (final SQLException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("updateCustomer", "Error while performing updateCustomer", e);
         } catch (final NamingException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("updateCustomer", "Error while performing updateCustomer", e);
         } finally {
             if (null != connection) {
                 try {
@@ -177,7 +182,7 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
      * demo.domain.Customer)
      */
     @Override
-    public Customer addCustomer(Customer customer) {
+    public Customer addCustomer(Customer customer) throws DemoException {
         LOG.debug("entering addCustomer with " +  customer);
         
         //Setting a newly generated ID
@@ -198,8 +203,10 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
             }
         } catch (final SQLException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("addCustomer", "Error while performing addCustomer", e);
         } catch (final NamingException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("addCustomer", "Error while performing addCustomer", e);
         } finally {
             if (null != connection) {
                 try {
@@ -233,7 +240,7 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
      * @see demo.dao.CustomerDAO#deleteCustomer(java.lang.String)
      */
     @Override
-    public String deleteCustomer(String customerid) {
+    public String deleteCustomer(String customerid) throws DemoException {
         LOG.debug("entering deleteCustomer with " + customerid);
 
         int parameterIndex = 0;
@@ -250,8 +257,10 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
             }
         } catch (final SQLException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("deleteCustomer", "Error while performing deleteCustomer", e);
         } catch (final NamingException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("deleteCustomer", "Error while performing deleteCustomer", e);
         } finally {
             if (null != connection) {
                 try {

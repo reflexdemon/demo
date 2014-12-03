@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 
 import demo.dao.CustomerDAO;
 import demo.dao.impl.CustomerDAOImpl;
+import demo.dao.utils.DemoException;
 import demo.domain.Customer;
 
 /**
@@ -53,11 +54,12 @@ public class DemoCustomer {
      * @param customerid
      *            the customerid
      * @return the customer
+     * @throws DemoException 
      */
     @GET
     @Path("{customerid}")
     @Produces("application/json")
-    public Customer getCustomer(@PathParam("customerid") final String customerid) {
+    public Customer getCustomer(@PathParam("customerid") final String customerid) throws DemoException {
         LOG.debug("customerid:" + customerid);
         return dao.findById(customerid);
 
@@ -67,7 +69,7 @@ public class DemoCustomer {
     @Path("{customerid}")
     @Produces("application/json")
     public Customer updateCustomer(
-            @PathParam("customerid") final String customerid, Customer customer) {
+            @PathParam("customerid") final String customerid, Customer customer) throws DemoException {
         LOG.debug("customerid:" + customerid);
         return dao.updateCustomer(customerid, customer);
 
@@ -76,7 +78,7 @@ public class DemoCustomer {
     @DELETE
     @Path("{customerid}")
     @Produces("application/json")
-    public String deleteCustomer(@PathParam("customerid") final String customerid) {
+    public String deleteCustomer(@PathParam("customerid") final String customerid) throws DemoException {
         LOG.debug("deleteCustomer customerid:" + customerid);
         return dao.deleteCustomer(customerid);
         
@@ -87,11 +89,12 @@ public class DemoCustomer {
      * Gets the all customer.
      *
      * @return the all customer
+     * @throws DemoException 
      */
     @GET
     @Produces("application/json")
     public List<Customer> getAllCustomer(@Context HttpHeaders header,
-            @Context HttpServletResponse response) {
+            @Context HttpServletResponse response) throws DemoException {
         LOG.debug("Fetch All");
         return dao.findAll();
 
@@ -102,10 +105,11 @@ public class DemoCustomer {
      *
      * @param customer the customer
      * @return the customer
+     * @throws DemoException 
      */
     @POST
     @Produces("application/json")
-    public Customer addCustomer(Customer customer) {
+    public Customer addCustomer(Customer customer) throws DemoException {
         return dao.addCustomer(customer);
     }
 
