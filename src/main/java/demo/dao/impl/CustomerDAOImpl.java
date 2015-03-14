@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import demo.dao.CustomerDAO;
+import demo.dao.utils.DemoException;
 import demo.domain.Customer;
 
 /**
@@ -30,14 +31,17 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
             .getName());
 
     /** The Constant GET_CUSTOMER. */
-    private static final String GET_CUSTOMER = "SELECT ID, NAME, AGE FROM CUSTOMER WHERE ID = ? ";
-
+    private static final String GET_CUSTOMER = "SELECT CUSTOMER.ID, CUSTOMER.NAME, CUSTOMER.AGE FROM demo.CUSTOMER WHERE CUSTOMER.ID = ? ";
+    private static final String NEXT = "SELECT max( id ) +1 AS NEXT FROM demo.CUSTOMER";
+    
 
     /** The Constant UPDATE_CUSTOMER. */
-    private static final String UPDATE_CUSTOMER = "UPDATE CUSTOMER SET NAME= ?, AGE = ? WHERE ID = ? ";
-
-    private static final String DELETE_CUSTOMER = "DELETE CUSTOMER WHERE ID = ? ";
+    private static final String UPDATE_CUSTOMER = "UPDATE demo.CUSTOMER SET CUSTOMER.NAME= ?, CUSTOMER.AGE = ? WHERE CUSTOMER.ID = ? ";
     
+    private static final String DELETE_CUSTOMER = "DELETE FROM demo.CUSTOMER WHERE CUSTOMER.ID = ?";
+
+    private static final String ADD_CUSTOMER = "INSERT INTO CUSTOMER (ID, NAME, AGE) VALUES (?, ?, ?)";
+
     /** The Constant GET_ALL. */
     private static final String GET_ALL = "SELECT ID, NAME, AGE FROM CUSTOMER";
 
@@ -47,7 +51,7 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
      * @see demo.dao.CustomerDAO#findById(java.lang.String)
      */
     @Override
-    public Customer findById(final String id) {
+    public Customer findById(final String id) throws DemoException {
         LOG.debug("entering findById with " + id);
         final Customer customer = new Customer();
         int parameterIndex = 0;
@@ -66,8 +70,10 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
             }
         } catch (final SQLException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("findById", "Error while performing findById", e);
         } catch (final NamingException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("findById", "Error while performing findById", e);
         } finally {
             if (null != connection) {
                 try {
@@ -87,7 +93,7 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
      * @see demo.dao.CustomerDAO#findAll()
      */
     @Override
-    public List<Customer> findAll() {
+    public List<Customer> findAll() throws DemoException {
         LOG.debug("entering findAll");
         final List<Customer> list = new ArrayList<Customer>();
         Connection connection = null;
@@ -106,8 +112,10 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
             }
         } catch (final SQLException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("findAll", "Error while performing findAll", e);
         } catch (final NamingException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("findAll", "Error while performing findAll", e);
         } finally {
             if (null != connection) {
                 try {
@@ -121,14 +129,17 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
         return list;
     }
 
-    /* (non-Javadoc)
-     * @see demo.dao.CustomerDAO#updateCustomer(java.lang.String, demo.domain.Customer)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see demo.dao.CustomerDAO#updateCustomer(java.lang.String,
+     * demo.domain.Customer)
      */
     @Override
-    public Customer updateCustomer(String customerid, Customer customer) {
+    public Customer updateCustomer(String customerid, Customer customer) throws DemoException {
         LOG.debug("entering updateCustomer with " + customerid);
         final Customer cust = findById(customerid);
-        //I should have avoided this. My bad!! 
+        // I should have avoided this. My bad!!
         customer = sync(customer, cust);
         int parameterIndex = 0;
         Connection connection = null;
@@ -146,8 +157,56 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
             }
         } catch (final SQLException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("updateCustomer", "Error while performing updateCustomer", e);
         } catch (final NamingException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("updateCustomer", "Error while performing updateCustomer", e);
+        } finally {
+            if (null != connection) {
+                try {
+                    connection.close();
+                } catch (final SQLException e) {
+                    throw new RuntimeException("Unable to close connection!", e);
+                }
+            }
+        }
+        LOG.debug("exitting updateCustomer with " + customer);
+        return customer;
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see demo.dao.CustomerDAO#updateCustomer(java.lang.String,
+     * demo.domain.Customer)
+     */
+    @Override
+    public Customer addCustomer(Customer customer) throws DemoException {
+        LOG.debug("entering addCustomer with " +  customer);
+        
+        //Setting a newly generated ID
+        customer.setId(guid());
+        int parameterIndex = 0;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(ADD_CUSTOMER);
+            statement.setInt(++parameterIndex, Integer.parseInt(customer.getId()));
+            statement.setString(++parameterIndex, customer.getName());
+            statement.setString(++parameterIndex, customer.getAge());
+            LOG.debug("Executing statement:" + ADD_CUSTOMER);
+            final int result = statement.executeUpdate();
+            if (result < 0) {
+                LOG.warn("No records affected!!!");
+            }
+        } catch (final SQLException e) {
+            LOG.error(e.getMessage(), e);
+            throw new DemoException("addCustomer", "Error while performing addCustomer", e);
+        } catch (final NamingException e) {
+            LOG.error(e.getMessage(), e);
+            throw new DemoException("addCustomer", "Error while performing addCustomer", e);
         } finally {
             if (null != connection) {
                 try {
@@ -168,18 +227,20 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
                 customer.setAge(cust.getAge());
             }
             if (null == customer.getName()) {
-                customer.setAge(cust.getName());
+                customer.setName(cust.getName());
             }
         }
         return customer;
-        
+
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see demo.dao.CustomerDAO#deleteCustomer(java.lang.String)
      */
     @Override
-    public void deleteCustomer(String customerid) {
+    public String deleteCustomer(String customerid) throws DemoException {
         LOG.debug("entering deleteCustomer with " + customerid);
 
         int parameterIndex = 0;
@@ -196,6 +257,45 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
             }
         } catch (final SQLException e) {
             LOG.error(e.getMessage(), e);
+            throw new DemoException("deleteCustomer", "Error while performing deleteCustomer", e);
+        } catch (final NamingException e) {
+            LOG.error(e.getMessage(), e);
+            throw new DemoException("deleteCustomer", "Error while performing deleteCustomer", e);
+        } finally {
+            if (null != connection) {
+                try {
+                    connection.close();
+                } catch (final SQLException e) {
+                    throw new RuntimeException("Unable to close connection!", e);
+                }
+            }
+        }
+        return customerid;
+    }
+
+
+    /**
+     * Guid.
+     * I know this is bad logic but this was done for the purpose of
+     * learning UI code rather than backend. Focus is on UI, UI and UI.
+     *
+     * @return the string
+     */
+    private final String guid() {
+        LOG.debug("entering guid()");
+        String result = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(NEXT);
+            LOG.debug("Executing statement:" + NEXT);
+            final ResultSet resultset = statement.executeQuery();
+            if (resultset.next()) {
+                result = resultset.getString("NEXT");
+            }
+        } catch (final SQLException e) {
+            LOG.error(e.getMessage(), e);
         } catch (final NamingException e) {
             LOG.error(e.getMessage(), e);
         } finally {
@@ -207,9 +307,7 @@ public class CustomerDAOImpl extends GenericDAOImpl implements CustomerDAO {
                 }
             }
         }
-
+        LOG.debug("exitting with " + result);
+        return result;
     }
-
-   
-
 }
