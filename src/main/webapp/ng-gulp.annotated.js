@@ -1,3 +1,41 @@
+angular.module('ng-gulp.heat', ['ui.bootstrap-slider']).config(['$routeProvider',
+    function($routeProvider) {
+        'use strict';
+        $routeProvider
+            .when('/heat', {
+                controller: 'HeatCtrl',
+                templateUrl: 'heat/view/heat.html'
+            });
+    }
+]);
+
+angular
+  .module('ng-gulp.heat').service('HeatService', ['$http',
+      function($http) {
+          'use strict';
+
+          //RESTful webservice base URL
+          var urlBase = '/services';
+
+          /**
+           * Convert from fahrenheit to celsius
+           * @param  Number celsius
+           * @return Heat model
+           */
+          this.toFahrenheit = function(celsius) {
+              return $http.get(urlBase + '/c2f/' + celsius);
+          };
+          /**
+           * Convert from celsius to fahrenheit
+           * @param  Number fahrenheit
+           * @return Heat model
+           */
+          this.toCelsius = function(fahrenheit) {
+              return $http.get(urlBase + '/f2c/' + fahrenheit);
+          };
+        }
+  ]);
+
 angular.module('ng-gulp.customer', ['ui.grid', 'ngDialog', 'ui.grid.resizeColumns']).config(['ngDialogProvider', '$routeProvider', function (ngDialogProvider, $routeProvider) {
     'use strict';
     ngDialogProvider.setDefaults({
@@ -216,29 +254,29 @@ angular.module('ng-gulp.todo', []).config(['$routeProvider',
 
 angular
     .module('ng-gulp.todo')
-    .controller('TodoCtrl', ["$scope", "$window", function($scope, $window) {
-        'use strict';
-        $scope.todos = JSON.parse($window.localStorage.getItem('todos') || '[]');
-        $scope.$watch('todos', function(newTodos, oldTodos) {
-            if (newTodos !== oldTodos) {
+    .controller('TodoCtrl', ['$scope', '$window', function($scope, $window) {
+            'use strict';
+            $scope.todos = JSON.parse($window.localStorage.getItem('todos') || '[]');
+            $scope.$watch('todos', function(newTodos, oldTodos) {
+                if (newTodos !== oldTodos) {
+                    $window.localStorage.setItem('todos', JSON.stringify(angular.copy($scope.todos)));
+                }
+            }, true);
+
+            $scope.add = function() {
+                var todo = {
+                    label: $scope.label,
+                    isDone: false
+                };
+                $scope.todos.push(todo);
                 $window.localStorage.setItem('todos', JSON.stringify(angular.copy($scope.todos)));
-            }
-        }, true);
-
-        $scope.add = function() {
-            var todo = {
-                label: $scope.label,
-                isDone: false
+                $scope.label = '';
             };
-            $scope.todos.push(todo);
-            $window.localStorage.setItem('todos', JSON.stringify(angular.copy($scope.todos)));
-            $scope.label = '';
-        };
 
-        $scope.check = function() {
-            this.todo.isDone = !this.todo.isDone;
-        };
-    }]);
+            $scope.check = function() {
+                this.todo.isDone = !this.todo.isDone;
+            };
+        }]);
 
 angular.module('ng-gulp.home', []);
 
@@ -250,11 +288,53 @@ angular
       }
   ]);
 
+angular
+  .module('ng-gulp.heat').controller('HeatCtrl', ['$scope', 'HeatService',
+      function($scope, heatService) {
+          'use strict';
+          init();
+          /**
+           * Inits the ctrl.
+           */
+          function init() {
+            $scope.defaultValue = {
+              celsius : 0.0,
+              fahrenheit : 0.0
+            };
+            $scope.testOptions = {
+              min : -273,
+              step : 1,
+              max : 273,
+              value : 0,
+              tooltip : 'show'
+            };
+            $scope.heat = $scope.defaultValue;
+          }
+          $scope.f2c = function() {
+                heatService.toCelsius($scope.heat.fahrenheit).success(function (heat) {
+                  $scope.heat = heat;
+                }).error(function (error) {
+                  $scope.messsage = error;
+                  $scope.heat = $scope.defaultValue;
+                });
+            };
+          $scope.c2f = function() {
+                heatService.toFahrenheit($scope.heat.celsius).success(function (heat) {
+                  $scope.heat = heat;
+                }).error(function (error) {
+                  $scope.messsage = error;
+                  $scope.heat = $scope.defaultValue;
+                });
+            };
+      }
+  ]);
+
 angular.module('ng-gulp', [
     'ngRoute', 'ngResource',
     'ng-gulp.home',
     'ng-gulp.todo',
-    'ng-gulp.customer'
+    'ng-gulp.customer',
+    'ng-gulp.heat'
 ])
     .config(['$routeProvider',
         function($routeProvider) {
@@ -279,7 +359,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('home/home.html',
-    '<h3>Home</h3><dl><dt><a href="#/todo" class="btn btn-primary"><i class="fa fa-bars"></i> TODO</a></dt><dd>A Simple TODO application to demo the AngularJS</dd></dl><dl><dt><a href="#/customer" class="btn btn-primary"><i class="fa fa-user"></i> Customer</a></dt><dd>A Simple module to show how to do the CRUD with Angular JS</dd></dl>');
+    '<h3>Home</h3><dl><dt><a href="#/todo" class="btn btn-primary"><i class="fa fa-bars"></i> TODO</a></dt><dd>A Simple TODO application to demo the AngularJS</dd></dl><dl><dt><a href="#/heat" class="btn btn-primary"><i class="fa fa-refresh fa-spin"></i> Temperature Conversion Utility</a></dt><dd>A Simple module to show how to make server call for non persistance service calls</dd></dl><dl><dt><a href="#/customer" class="btn btn-primary"><i class="fa fa-user"></i> Customer</a></dt><dd>A Simple module to show how to do the CRUD with Angular JS</dd></dl><dl><dt><a href="https://github.com/reflexdemon/ng-gulp" class="btn btn-primary" target="_blank"><i class="fa fa-github"></i> Github Source</a></dt><dd>If you liked this project, here is the orginal source code. Please feel free to fork the project.</dd></dl>');
 }]);
 })();
 
@@ -316,6 +396,18 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('customer/view/customer.html',
     '<h3>Customers</h3><a href="#/home" class="btn btn-primary"><i class="fa fa-home"></i> Home</a> <a href="#/customer/new" class="btn btn-success"><i class="fa fa-user-plus"></i> Add</a><div ng-if="status" class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <strong>Message:</strong>{{status}}</div><div id="grid1" ui-grid="gridOpts" class="grid myGrid" ui-grid-resize-columns></div>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('ng-gulp');
+} catch (e) {
+  module = angular.module('ng-gulp', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('heat/view/heat.html',
+    '<h3>Temperature Conversion Utility</h3><a href="#/home" class="btn btn-primary"><i class="fa fa-home"></i> Home</a><div ng-if="status" class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <strong>Message:</strong>{{status}}</div><div class="row"><div class="well"><form class="form-horizontal"><div class="form-group"><label for="fahrenheit">Fahrenheit</label><slider ng-model="heat.fahrenheit" min="testOptions.min" step="testOptions.step" max="testOptions.max" value="testOptions.value" change="f2c()"></slider><label>{{heat.fahrenheit}}</label><button type="button" class="btn btn-default" ng-click="f2c()">Fahrenheit to Celsius</button></div><div class="form-group"><label for="celsius">Celsius</label><slider ng-model="heat.celsius" min="testOptions.min" step="testOptions.step" max="testOptions.max" value="testOptions.value" change="c2f()"></slider><label>{{heat.celsius}}</label><button type="button" class="btn btn-default" ng-click="c2f()">Celsius to Fahrenheit</button></div></form></div></div>');
 }]);
 })();
 
