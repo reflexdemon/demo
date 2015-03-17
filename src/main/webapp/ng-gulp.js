@@ -278,7 +278,54 @@ angular
             };
         }]);
 
-angular.module('ng-gulp.home', []);
+angular.module('ng-gulp.home', []).config(['$routeProvider',
+        function($routeProvider) {
+            'use strict';
+            $routeProvider
+            .when('/home', { //Default
+                controller: 'HomeCtrl',
+                templateUrl: 'home/home.html'
+            }).when('/module', {
+                controller: 'HomeCtrl',
+                templateUrl: 'home/module.html'
+            }).when('/stack', {
+                controller: 'HomeCtrl',
+                templateUrl: 'home/stack.html'
+            });
+        }
+    ]);
+
+
+angular.module('ng-gulp.home').directive('navHeader', function() {
+  'use strict';
+    return {
+        restrict: 'E',
+        replace: true,
+        transclude: true,
+        scope: true,
+        templateUrl: 'home/nav-header.html',
+        controller: function($scope, $element, $location) {
+            $scope.isActive = function(viewLocation) {
+                var active = false;
+                if (viewLocation.length) {
+                    if (viewLocation === $location.path()) {
+                        active = true;
+                    }
+                } else {
+                    for (var i = 0; i < viewLocation.length; i++) {
+                        var l = viewLocation[i];
+                        if (l === $location.path()) {
+                            active = true;
+                            break;
+                        }
+                    }
+                }
+                return active;
+
+            }
+        }
+    }
+});
 
 angular
   .module('ng-gulp.home').controller('HomeCtrl', ['$scope',
@@ -341,11 +388,7 @@ angular.module('ng-gulp', [
     .config(['$routeProvider',
         function($routeProvider) {
             'use strict';
-            $routeProvider
-            .when('/home', {
-                controller: 'HomeCtrl',
-                templateUrl: 'home/home.html'
-            });
+
             //Default route
             $routeProvider.otherwise({
                 redirectTo: '/home'
@@ -361,7 +404,43 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('home/home.html',
-    '<div class="jumbotron"><h2>Angular Gulp Fusion</h2><p>Clone <i class="fa fa-github-alt"></i> or <i class="fa fa-code-fork"></i> Fork the project and send us a pull request!.</p><p><a href="https://github.com/reflexdemon/ng-gulp" class="btn btn-default" target="_blank"><i class="fa fa-github-square"></i> View on Github</a></p></div><div class="well"><h2>Modules</h2><dl><dt><a href="#/todo" class="btn btn-info"><i class="fa fa-bars"></i> TODO</a></dt><dd>A Simple TODO application to demo the AngularJS</dd></dl><dl><dt><a href="#/heat" class="btn btn-danger"><i class="fa fa-refresh fa-spin"></i> Temperature Conversion Utility</a></dt><dd>A Simple module to show how to make server call for non persistance service calls</dd></dl><dl><dt><a href="#/customer" class="btn btn-primary"><i class="fa fa-user"></i> Customer</a></dt><dd>A Simple module to show how to do the CRUD with Angular JS</dd></dl></div><div class="well"><dl><dt>Technology Stack</dt><dd><ul><li><a target="_blank" href="https://angularjs.org/">Angular JS</a><ul><li>v1.4</li></ul></li><li><a target="_blank" href="http://gulpjs.com/">Gulp JS</a><ul><li>v3.8.11</li></ul></li><li><a target="_blank" href="http://getbootstrap.com/">Bootstrap</a><ul><li>v3.3.2</li></ul></li><li><a target="_blank" href="http://fontawesome.io/">Fontawesome</a><ul><li>v4.3.0</li></ul></li><li><a target="_blank" href="http://lesscss.org/">LESS</a><ul><li>v2.4.0</li></ul></li></ul></dd></dl></div>');
+    '<div class="jumbotron"><h2>Angular Gulp Fusion</h2><p>Clone <i class="fa fa-github-alt"></i> or <i class="fa fa-code-fork"></i> Fork the project and send us a pull request!.</p><p><a href="https://github.com/reflexdemon/ng-gulp" class="btn btn-default" target="_blank"><i class="fa fa-github-square"></i> View on Github</a></p></div>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('ng-gulp');
+} catch (e) {
+  module = angular.module('ng-gulp', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('home/module.html',
+    '<div class="well"><h2>Modules</h2><dl><dt><a href="#/todo" class="btn btn-info"><i class="fa fa-bars"></i> TODO</a></dt><dd>A Simple TODO application to demo the AngularJS</dd></dl><dl><dt><a href="#/heat" class="btn btn-danger"><i class="fa fa-refresh fa-spin"></i> Temperature Conversion Utility</a></dt><dd>A Simple module to show how to make server call for non persistance service calls</dd></dl><dl><dt><a href="#/customer" class="btn btn-primary"><i class="fa fa-user"></i> Customer</a></dt><dd>A Simple module to show how to do the CRUD with Angular JS</dd></dl></div>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('ng-gulp');
+} catch (e) {
+  module = angular.module('ng-gulp', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('home/nav-header.html',
+    '<div class="navbar navbar-inverse navbar-fixed-top"><div class="container"><div class="navbar-header"><a class="navbar-brand" href="#/home"><i class="fa fa-beer"></i> NG Gulp</a></div><ul class="nav navbar-nav"><li ng-class="{ active: isActive(\'/home\') }"><a href="#/home"><i class="fa fa-home"></i> Home</a></li><li class="dropdown"><a href="#/module" ng-class="{ active: isActive(\'/module\') }" data-toggle="dropdown" role="button" aria-expanded="true"><i class="fa fa-magic"></i> Modules <span class="caret"></span></a><ul class="dropdown-menu" role="menu"><li ng-class="{ active: isActive(\'/todo\') }"><a href="#/todo"><i class="fa fa-bars"></i> TODO</a></li><li class="divider"></li><li ng-class="{ active: isActive(\'/heat\') }"><a href="#/heat"><i class="fa fa-refresh fa-spin"></i> Temperature Conversion Utility</a></li><li ng-class="{ active: isActive(\'/customer\') }"><a href="#/customer"><i class="fa fa-user"></i> Customer</a></li></ul></li><li ng-class="{ active: isActive(\'/stack\') }"><a href="#/stack"><i class="fa fa-terminal"></i> Tech Stack</a></li><li class="dropdown-menu-right"><a href="https://github.com/reflexdemon/ng-gulp" target="_blank"><i class="fa fa-github-square"></i> GitHub</a></li></ul></div></div>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('ng-gulp');
+} catch (e) {
+  module = angular.module('ng-gulp', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('home/stack.html',
+    '<div class="well"><dl><dt>Technology Stack</dt><dd><ul><li><a target="_blank" href="https://angularjs.org/">Angular JS</a><ul><li>v1.4</li></ul></li><li><a target="_blank" href="http://gulpjs.com/">Gulp JS</a><ul><li>v3.8.11</li></ul></li><li><a target="_blank" href="http://getbootstrap.com/">Bootstrap</a><ul><li>v3.3.2</li></ul></li><li><a target="_blank" href="http://fontawesome.io/">Fontawesome</a><ul><li>v4.3.0</li></ul></li><li><a target="_blank" href="http://lesscss.org/">LESS</a><ul><li>v2.4.0</li></ul></li></ul></dd></dl></div><div class="well"><dl><dt>Addons</dt><dd><ul><li><a target="_blank" href="https://github.com/angular/bower-angular-route">Angular Route</a></li><li><a target="_blank" href="https://github.com/angular/bower-angular-resource">Angular Resource</a></li><li><a target="_blank" href="http://ui-grid.info/">Angular UI Grid</a></li><li><a target="_blank" href="http://likeastore.github.io/ngDialog/">NG Dialog</a></li><li><a target="_blank" href="https://github.com/seiyria/angular-bootstrap-slider">Angular Bootstrap Slider</a></li><li><a target="_blank" href="http://luisfarzati.github.io/angulartics/">Angulartics</a></li></ul></dd></dl></div>');
 }]);
 })();
 
@@ -397,7 +476,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('customer/view/customer.html',
-    '<h3>Customers</h3><a href="#/home" class="btn btn-primary"><i class="fa fa-home"></i> Home</a> <a href="#/customer/new" class="btn btn-success"><i class="fa fa-user-plus"></i> Add</a><div ng-if="status" class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <strong>Message:</strong>{{status}}</div><div id="grid1" ui-grid="gridOpts" class="grid myGrid" ui-grid-resize-columns></div>');
+    '<h3>Customers</h3><a href="#/customer/new" class="btn btn-success"><i class="fa fa-user-plus"></i> Add</a><div ng-if="status" class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <strong>Message:</strong>{{status}}</div><div id="grid1" ui-grid="gridOpts" class="grid myGrid" ui-grid-resize-columns></div>');
 }]);
 })();
 
@@ -409,7 +488,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('heat/view/heat.html',
-    '<h3>Temperature Conversion Utility</h3><a href="#/home" class="btn btn-primary"><i class="fa fa-home"></i> Home</a><div ng-if="status" class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <strong>Message:</strong>{{status}}</div><div class="row"><div class="well"><form class="form-horizontal"><div class="form-group"><label for="fahrenheit">Fahrenheit</label><slider ng-model="heat.fahrenheit" min="testOptions.min" step="testOptions.step" max="testOptions.max" value="testOptions.value" change="f2c()"></slider><label>{{heat.fahrenheit}}</label><button type="button" class="btn btn-default" ng-click="f2c()">Fahrenheit to Celsius</button></div><div class="form-group"><label for="celsius">Celsius</label><slider ng-model="heat.celsius" min="testOptions.min" step="testOptions.step" max="testOptions.max" value="testOptions.value" change="c2f()"></slider><label>{{heat.celsius}}</label><button type="button" class="btn btn-default" ng-click="c2f()">Celsius to Fahrenheit</button></div></form></div></div>');
+    '<h3>Temperature Conversion Utility</h3><div ng-if="status" class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <strong>Message:</strong>{{status}}</div><div class="row"><div class="well"><form class="form-horizontal"><div class="form-group"><label for="fahrenheit">Fahrenheit</label><slider ng-model="heat.fahrenheit" min="testOptions.min" step="testOptions.step" max="testOptions.max" value="testOptions.value" change="f2c()"></slider><label>{{heat.fahrenheit}}</label><button type="button" class="btn btn-default" ng-click="f2c()">Fahrenheit to Celsius</button></div><div class="form-group"><label for="celsius">Celsius</label><slider ng-model="heat.celsius" min="testOptions.min" step="testOptions.step" max="testOptions.max" value="testOptions.value" change="c2f()"></slider><label>{{heat.celsius}}</label><button type="button" class="btn btn-default" ng-click="c2f()">Celsius to Fahrenheit</button></div></form></div></div>');
 }]);
 })();
 
@@ -421,6 +500,6 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('todo/view/todo.html',
-    '<h3>Todo</h3><a href="#/home" class="btn btn-primary"><i class="fa fa-home"></i> Home</a><ul class="todo-list"><li class="todo-item" ng-repeat="todo in todos" ng-class="{\'todo-done\': todo.isDone}"><label><input type="checkbox" ng-click="check()" ng-model="todo.isDone">&nbsp;{{todo.label}}</label></li><li class="todo-item"><form ng-submit="add()"><input placeholder="New item..." ng-model="label"> <button type="submit" ng-disabled="posting || !label">Add</button></form></li></ul>');
+    '<h3>Todo</h3><ul class="todo-list"><li class="todo-item" ng-repeat="todo in todos" ng-class="{\'todo-done\': todo.isDone}"><label><input type="checkbox" ng-click="check()" ng-model="todo.isDone">&nbsp;{{todo.label}}</label></li><li class="todo-item"><form ng-submit="add()"><input placeholder="New item..." ng-model="label"> <button type="submit" ng-disabled="posting || !label">Add</button></form></li></ul>');
 }]);
 })();
