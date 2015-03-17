@@ -1,6 +1,6 @@
 body {
   padding: 50px;
-  font: 20px/150% "Helvetica Neue", "Lucida Grande", Verdana, sans-serif;
+  font: 15px/150% "Helvetica Neue", "Lucida Grande", Verdana, sans-serif;
   color: #666;
   background: #fcfcfc;
 }
@@ -8,14 +8,6 @@ input,
 textarea,
 button {
   font: inherit;
-}
-
-.customer-item {
-  padding: 0.5em;
-}
-.myGrid {
-  width: 450px;
-  height: 300px;
 }
 
 .home-list {
@@ -30,6 +22,14 @@ button {
   text-decoration: line-through;
   font-style: italic;
   color: #999;
+}
+
+.customer-item {
+  padding: 0.5em;
+}
+.myGrid {
+  width: 450px;
+  height: 300px;
 }
 
 .todo-list {
