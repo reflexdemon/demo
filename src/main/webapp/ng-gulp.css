@@ -10,6 +10,14 @@ button {
   font: inherit;
 }
 
+.customer-item {
+  padding: 0.5em;
+}
+.myGrid {
+  width: 450px;
+  height: 300px;
+}
+
 .home-list {
   list-style: none;
   text-indent: 0;
@@ -22,14 +30,6 @@ button {
   text-decoration: line-through;
   font-style: italic;
   color: #999;
-}
-
-.customer-item {
-  padding: 0.5em;
-}
-.myGrid {
-  width: 450px;
-  height: 300px;
 }
 
 .todo-list {
