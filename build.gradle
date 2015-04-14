@@ -1,0 +1,52 @@
+/*******************************************************
+ * 
+ * To create the project please run the following command
+ * 
+ * gradle clean build assemble
+ *
+ * That would result in compiled war on build/libs/demo.war
+ *
+ * This was added to learn gradle.
+ *
+ * @see : https://gradle.org/ for more details
+ * @see : https://gradle.org/docs/current/dsl/org.gradle.api.tasks.bundling.War.html
+ * 
+ * 
+ * Manifest manifest
+ * 
+ */
+
+
+//Please specify the Java libs location
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+//Just import WAR Plugin
+//Search for more plugins at https://plugins.gradle.org/
+//http://gradle.org/docs/current/javadoc/org/gradle/api/plugins/WarPlugin.html
+apply plugin: "war"
+
+
+dependencies {
+
+	compile "com.sun.jersey:jersey-json:1.8"
+        compile "com.sun.jersey:jersey-server:1.8"
+        compile "commons-logging:commons-logging:1.1.3"
+        compile "log4j:log4j:1.2.17"
+        compile "mysql:mysql-connector-java:5.1.26"
+        compile "org.eclipse.persistence:eclipselink:2.5.0-SNAPSHOT"
+        compile "org.eclipse.persistence:javax.persistence:2.1.0-SNAPSHOT"
+        compile "org.eclipse.persistence:org.eclipse.persistence.jpa.modelgen.processor:2.5.0-SNAPSHOT"
+        compile "org.hibernate:hibernate-core:3.5.1-Final"
+        compile "org.hibernate:hibernate-entitymanager:3.5.1-Final"
+        compile "org.jboss.spec:jboss-javaee-6.0:3.0.0.Final-redhat-1"
+        compile "org.postgresql:postgresql:9.2-1003-jdbc4"
+
+}
+
+
+war {
+	from configurations.compile.collect()
+}
