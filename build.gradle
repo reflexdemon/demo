@@ -46,6 +46,10 @@ dependencies {
 
 }
 
+sourceSets{
+        main.output.resourcesDir  sourceSets.main.output.classesDir
+}
+compileJava.dependsOn(processResources)
 
 war {
 	from configurations.compile.collect()
