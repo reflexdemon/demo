@@ -146,7 +146,6 @@
         vm.updateCustomer = updateCustomer;
         vm.deleteRecord = deleteRecord;
         vm.deleteCustomer = deleteCustomer;
-        $scope.vm = vm;
 
         init();
 
@@ -618,7 +617,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('home/home.html',
-    '<div class="jumbotron"><h2>Angular Gulp Fusion</h2><p>Clone <i class="fa fa-github-alt"></i> or <i class="fa fa-code-fork"></i> Fork the project and send us a pull request!.</p><p><a href="https://github.com/reflexdemon/ng-gulp" class="btn btn-default" target="_blank"><i class="fa fa-github-square"></i> View on Github</a></p></div>');
+    '<div class="jumbotron"><h2>Angular Gulp Fusion</h2><p>Clone <i class="fa fa-github-alt"></i> or <i class="fa fa-code-fork"></i> Fork the project and send us a pull request!.</p><p><a href="http://reflexdemon.github.io/ng-gulp" class="btn btn-default" target="_blank"><i class="fa fa-github-square"></i> Github Pages</a></p></div>');
 }]);
 })();
 
